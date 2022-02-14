@@ -1,7 +1,3 @@
-from dis import dis
-from turtle import distance
-
-
 class InfoMessage:
     """Информационное сообщение о тренировке."""
 
@@ -38,17 +34,17 @@ class Training:
         self.action = action
         self.duration = duration
         self.weight = weight
-    
+
     def get_distance(self) -> float:
         """Получить дистанцию в км."""
-        distance_km = self.action * self.LEN_STEP / self.M_IN_KM
-        return distance_km
-    
+        distance = self.action * self.LEN_STEP / self.M_IN_KM
+        return distance
+
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
         mean_speed = self.get_distance() / self.duration
         return mean_speed
-        
+
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
         pass
@@ -89,15 +85,15 @@ class SportsWalking(Training):
                  height: float) -> None:
         super().__init__(action, duration, weight)
         self.height = height
-    
+
     def get_spent_calories(self) -> float:
         """Получить количество затраченный калорий при спортивной хотьбе."""
-        cal_4 = self.CF_WLK_1 * self.weight 
+        cal_4 = self.CF_WLK_1 * self.weight
         cal_5 = self.get_mean_speed()**self.CF_WLK_2 // self.height
         cal_6 = cal_5 * self.CF_WLK_3 * self.weight
         cal_7 = (cal_4 + cal_6) * self.duration * 60
         return cal_7
-     
+
 
 class Swimming(Training):
     """Тренировка: плавание."""
@@ -115,7 +111,7 @@ class Swimming(Training):
         super().__init__(action, duration, weight)
         self.length_pool = length_pool
         self.count_pool = count_pool
-    
+
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость при плавание."""
         speed_1 = self.length_pool * self.count_pool
@@ -131,9 +127,9 @@ class Swimming(Training):
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    dict = {'RUN' : Running,
-            'WLK' : SportsWalking,
-            'SWM' : Swimming}
+    dict = {'RUN': Running,
+            'WLK': SportsWalking,
+            'SWM': Swimming}
     return dict[workout_type](*data)
 
 
@@ -153,5 +149,3 @@ if __name__ == '__main__':
     for workout_type, data in packages:
         training = read_package(workout_type, data)
         main(training)
-        
-
